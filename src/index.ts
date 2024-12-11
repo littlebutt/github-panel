@@ -37,7 +37,7 @@ const showWindow = (): void => {
       width: MAIN_WINDOW_WIDTH,
       alwaysOnTop: true,
       resizable: false,
-      //transparent: true,
+      transparent: true,
       x: size[0],
       y: size[1],
       webPreferences: {

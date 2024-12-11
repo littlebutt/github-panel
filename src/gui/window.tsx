@@ -1,12 +1,15 @@
-import { ThemeProvider, BaseStyles } from '@primer/react'
+import './window.css'
+import Carousel from './components/carousel'
 
 const Window: React.FC = () => {
   return (
-    <ThemeProvider>
-      <BaseStyles>
-        <div>Github Panel</div>
-      </BaseStyles>
-    </ThemeProvider>
+      <div className='window'>
+        <Carousel>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+        </Carousel>
+      </div>
   )
 }
 
