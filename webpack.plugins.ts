@@ -17,6 +17,10 @@ export const plugins = [
         from: path.resolve(__dirname, 'src/assets/'),
         to: path.resolve(__dirname, '.webpack/main/assets/'),
       },
+      {
+        from: path.resolve(__dirname, 'src/assets/'),
+        to: path.resolve(__dirname, '.webpack/renderer/main_window/assets/'),
+      },
     ],
   }),
 ]

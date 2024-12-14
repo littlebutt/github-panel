@@ -1,0 +1,25 @@
+.scrollContainer {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-bottom: 5px;
+}
+
+.scrollContainer:hover {
+  max-width: 100%;
+  overflow-x: visible;
+  scrollbar-width: thin;
+}
+
+.container {
+  /* width: max-content, */
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calendar {
+  display: block;
+  overflow: visible;
+}

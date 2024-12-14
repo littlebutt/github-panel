@@ -46,9 +46,9 @@ const showWindow = (): void => {
       titleBarStyle: 'hidden',
     })
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-  } else {
-    mainWindow.show()
   }
+  mainWindow?.show()
+  // mainWindow.webContents.openDevTools()
 }
 
 const hideWindow = (): void => {
@@ -71,5 +71,6 @@ app.on('ready', () => {
       ? 'assets/github-brands-white.png'
       : 'assets/github-brands-solid.png'
   tray = new Tray(path.join(__dirname, iconPath))
+  toggleWindowState()
   tray.on('click', () => toggleWindowState())
 })
