@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import './window.css'
+import { useEffect, useRef, useState } from 'react'
 import Carousel from './components/carousel'
 import StatPanel from './stat-panel'
-import { useEffect, useRef, useState } from 'react'
+import SettingsPanel from './settings-panel'
+
+import './window.css'
 
 const Window: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string>()
@@ -26,7 +28,6 @@ const Window: React.FC = () => {
           setUsername(res)
         })
       }
-
     })
   }, [])
 
@@ -35,7 +36,12 @@ const Window: React.FC = () => {
       <Carousel ref={carouselRef}>
         <StatPanel></StatPanel>
         <div>2</div>
-        <div>3</div>
+        <SettingsPanel
+          accessToken={accessToken}
+          setAccessToken={setAccessToken}
+          username={username}
+          setUsername={setUsername}
+        ></SettingsPanel>
       </Carousel>
     </div>
   )

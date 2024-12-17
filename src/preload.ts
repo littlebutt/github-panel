@@ -3,8 +3,18 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('ConfigAPI', {
-    init: () => ipcRenderer.invoke('init'),
-    missBaseConfig: () => ipcRenderer.invoke('missBaseConfig'),
-    getAccessToken: () => ipcRenderer.invoke('getAccessToken'),
-    getUsername: () => ipcRenderer.invoke('getUsername')
+  init: () => ipcRenderer.invoke('init'),
+  missBaseConfig: () => ipcRenderer.invoke('missBaseConfig'),
+  getAccessToken: () => ipcRenderer.invoke('getAccessToken'),
+  getUsername: () => ipcRenderer.invoke('getUsername'),
+  setAccessToken: (accessToken: string) =>
+    ipcRenderer.invoke('setAccessToken', accessToken),
+  setUsername: (username: string) =>
+    ipcRenderer.invoke('setUsername', username),
+  save: () => ipcRenderer.invoke('save'),
+})
+
+contextBridge.exposeInMainWorld('SystemAPI', {
+  restart: () => ipcRenderer.invoke('restart'),
+  quit: () => ipcRenderer.invoke('quit'),
 })

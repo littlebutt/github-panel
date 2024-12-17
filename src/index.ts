@@ -69,10 +69,17 @@ let tray: Tray
 let config: Config
 
 const initConfigIPC = () => {
-  ipcMain.handle('init', () => config = new Config({}))
+  ipcMain.handle('init', () => (config = new Config({})))
   ipcMain.handle('missBaseConfig', () => config.missBaseConfig())
   ipcMain.handle('getAccessToken', () => config.getAccessToken())
   ipcMain.handle('getUsername', () => config.getUsername())
+  ipcMain.handle('setAccessToken', (event, accessToken: string) =>
+    config.setAccessToken(accessToken),
+  )
+  ipcMain.handle('setUsername', (event, username: string) =>
+    config.setUsername(username),
+  )
+  ipcMain.handle('save', () => config.save())
 }
 
 app.on('ready', () => {
@@ -85,6 +92,11 @@ app.on('ready', () => {
 
   // IPC Init
   initConfigIPC()
+  ipcMain.handle('restart', () => {
+    app.relaunch()
+    app.quit()
+  })
+  ipcMain.handle('quit', () => app.quit())
 
   // App Start
   toggleWindowState()
