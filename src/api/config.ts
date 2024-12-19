@@ -8,7 +8,9 @@ const defaultConfig = ``
 
 export interface ConfigBase {
   accessToken?: string
-  username?: string
+  timespan?: number
+  maxNotifications?: number
+  maxEvents?: number
 }
 
 export interface ConfigTheme {
@@ -57,7 +59,12 @@ export class Config {
     const config = TOML.parse(fs.readFileSync(path, 'utf-8'))
     this.configBase = {}
     this.configBase.accessToken = config?.accessToken as string
-    this.configBase.username = config?.username as string
+    // Default personal information statistics timespan: 30 days
+    this.configBase.timespan = config?.timespan as number ?? 30
+    // Default max showed event number: 10
+    this.configBase.maxEvents = config?.maxEvents as number ?? 10
+    // Default max showed notification number: 10
+    this.configBase.maxNotifications = config?.maxNotifications as number ?? 10
     this.configThemes = []
     this.configPlugins = []
     for (const key of Object.keys(config)) {
@@ -75,14 +82,16 @@ export class Config {
   }
 
   missBaseConfig() {
-    return !this.configBase.username || !this.configBase.accessToken
+    return !this.configBase.accessToken
   }
 
   save() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-const
     let data: any = {
       accessToken: this.configBase.accessToken,
-      username: this.configBase.username,
+      timespan: this.configBase.timespan,
+      maxEvents: this.configBase.maxEvents,
+      maxNotifications: this.configBase.maxNotifications
     }
     for (const theme of this.configThemes) {
       data[`theme/${theme.name}`] = {
@@ -105,12 +114,12 @@ export class Config {
     this.configBase.accessToken = accessToken
   }
 
-  getUsername() {
-    return this.missBaseConfig() ? null : this.configBase.username
+  getTimespan() {
+    return this.configBase.timespan
   }
 
-  setUsername(username: string) {
-    this.configBase.username = username
+  setTimespan(timespan: number) {
+    this.configBase.timespan = timespan
   }
 
   getConfigThemes() {
