@@ -41,7 +41,7 @@ export class Config {
     this._loadConfig(this.configPath)
   }
 
-  _getConfigPath() {
+  private _getConfigPath() {
     const homeDir = os.homedir()
     const configDir =
       process.platform === 'win32' ? homeDir : path.join(homeDir, '.config')
@@ -55,16 +55,17 @@ export class Config {
     return config
   }
 
-  _loadConfig(path: string | fs.PathLike) {
+  private _loadConfig(path: string | fs.PathLike) {
     const config = TOML.parse(fs.readFileSync(path, 'utf-8'))
     this.configBase = {}
     this.configBase.accessToken = config?.accessToken as string
     // Default personal information statistics timespan: 30 days
-    this.configBase.timespan = config?.timespan as number ?? 30
+    this.configBase.timespan = (config?.timespan as number) ?? 30
     // Default max showed event number: 10
-    this.configBase.maxEvents = config?.maxEvents as number ?? 10
+    this.configBase.maxEvents = (config?.maxEvents as number) ?? 10
     // Default max showed notification number: 10
-    this.configBase.maxNotifications = config?.maxNotifications as number ?? 10
+    this.configBase.maxNotifications =
+      (config?.maxNotifications as number) ?? 10
     this.configThemes = []
     this.configPlugins = []
     for (const key of Object.keys(config)) {
@@ -91,7 +92,7 @@ export class Config {
       accessToken: this.configBase.accessToken,
       timespan: this.configBase.timespan,
       maxEvents: this.configBase.maxEvents,
-      maxNotifications: this.configBase.maxNotifications
+      maxNotifications: this.configBase.maxNotifications,
     }
     for (const theme of this.configThemes) {
       data[`theme/${theme.name}`] = {

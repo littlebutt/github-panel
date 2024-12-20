@@ -34,10 +34,10 @@
 }
 .main .left .info .follows {
   display: inline;
-  margin-top: 3px;
 }
 
 .main .left .info .location {
+  margin-top: -5px;
   display: inline;
 }
 

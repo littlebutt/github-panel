@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React, { useEffect, useState } from 'react'
 import { Avatar, Text } from '@primer/react'
 import {
   GitCommitIcon,
@@ -11,20 +12,42 @@ import {
 
 import './stat-panel.css'
 import ActivityCalendar from './components/activity-calendar'
+import { getCommits, getStarred } from './utils'
 
-const StatPanel: React.FC = () => {
-  const avatar_url = 'https://avatars.githubusercontent.com/u/583231?v=4'
-  const name = 'littlebutt'
-  const followers = 6
-  const following = 12
-  const location = 'Shanghai'
+export interface StatPanelProps {
+  timespan: number
+}
+
+const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
+  const [avatarUrl, setAvatarUrl] = useState<string>(
+    'https://avatars.githubusercontent.com/u/583231?v=4',
+  )
+  const [name, setName] = useState<string>('')
+  const [followers, setFollowers] = useState<number>(0)
+  const [following, setFollowing] = useState<number>(0)
+  const [location, setLocation] = useState<string>('Unknown')
+  const [starred, setStarred] = useState<number>(0)
+  const [commits, setCommits] = useState<number>(0)
   const stat = 50
+
+  useEffect(() => {
+    // @ts-ignore
+    window.GithubAPI.getAuthenticatedUser().then((res) => {
+      setAvatarUrl(res?.avatar_url)
+      setName(res?.login)
+      setFollowers(res?.followers)
+      setFollowing(res?.following)
+      setLocation(res?.location ?? 'Unknown')
+      getCommits(props.timespan, res?.login, setCommits)
+    })
+    getStarred(setStarred)
+  })
 
   return (
     <div className="main">
       <div className="left">
         <div className="avatar">
-          <Avatar src={avatar_url} alt="avatar" size={150}></Avatar>
+          <Avatar src={avatarUrl} alt="avatar" size={150}></Avatar>
         </div>
         <div className="info">
           <div className="name">
@@ -53,7 +76,7 @@ const StatPanel: React.FC = () => {
               <Text size="small">Stars</Text>
               <div>
                 <StarIcon size={16} verticalAlign="middle" />{' '}
-                <Text>{stat}</Text>
+                <Text>{starred}</Text>
               </div>
             </div>
           </div>
@@ -62,7 +85,7 @@ const StatPanel: React.FC = () => {
               <Text size="small">Commits</Text>
               <div>
                 <GitCommitIcon size={16} verticalAlign="middle" />{' '}
-                <Text>{stat}</Text>
+                <Text>{commits}</Text>
               </div>
             </div>
           </div>

@@ -15,8 +15,9 @@ import './settings-panel.css'
 export interface SettingsPanelProps {
   accessToken: string
   setAccessToken: (accessToken: string) => void
-  username: string
-  setUsername: (username: string) => void
+  badAccessToken: boolean
+  timespan: number
+  setTimespan: (timespan: number) => void
 }
 
 const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
@@ -31,17 +32,18 @@ const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
     props.setAccessToken(event.target.value)
   }
 
-  const onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
-    props.setUsername(event.target.value)
+  const onChangeTimespan = (event: ChangeEvent<HTMLInputElement>) => {
+    props.setTimespan(event.target.value as unknown as number)
   }
 
   const save = () => {
     // @ts-ignore
     window.ConfigAPI.setAccessToken(props.accessToken)
     // @ts-ignore
-    window.ConfigAPI.setUsername(props.username)
+    window.ConfigAPI.setTimespan(props.timespan)
     // @ts-ignore
     window.ConfigAPI.save()
+    // FIXME: Electron forge cannot relaunch properly
     // // @ts-ignore
     // window.SystemAPI.restart()
   }
@@ -76,14 +78,19 @@ const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
               onFocus={() => setShowPassword(true)}
               onBlur={() => setShowPassword(false)}
             ></TextInput>
+            {props.badAccessToken && (
+              <FormControl.Validation variant="error">
+                Please input the right Access Token and click the Save button
+              </FormControl.Validation>
+            )}
           </FormControl>
           <FormControl>
-            <FormControl.Label>Username</FormControl.Label>
+            <FormControl.Label>Statistics Timespan</FormControl.Label>
             <TextInput
-              onChange={onChangeUsername}
-              value={props.username}
+              type="number"
+              onChange={onChangeTimespan}
+              value={props.timespan}
             ></TextInput>
-            {/* <FormControl.Validation variant='success'></FormControl.Validation> */}
           </FormControl>
         </div>
         <div className="item">
@@ -100,7 +107,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = (props) => {
           <FormControl disabled>
             <FormControl.Label>Current Plugins</FormControl.Label>
             <Select style={{ width: '90px' }}>
-              <Select.Option value="default">Default</Select.Option>
+              <Select.Option value="default">None</Select.Option>
             </Select>
           </FormControl>
         </div>

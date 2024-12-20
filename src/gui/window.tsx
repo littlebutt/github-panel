@@ -8,24 +8,41 @@ import './window.css'
 
 const Window: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string>()
-  const [username, setUsername] = useState<string>()
+  const [badAccessToken, setBadAccessToken] = useState<boolean>(true)
+  const [timespan, setTimespan] = useState<number>()
   const carouselRef = useRef(null)
 
   useEffect(() => {
     // @ts-ignore
-    window.ConfigAPI.init()
+    window.ConfigAPI.getTimespan().then((res) => {
+      setTimespan(res)
+    })
+
     // @ts-ignore
     window.ConfigAPI.missBaseConfig().then((res) => {
+      // 1. No accessToken in the config file
       if (res === true) {
-        carouselRef.current.goTo(2)
+        carouselRef.current.goTo(3)
       } else {
         // @ts-ignore
         window.ConfigAPI.getAccessToken().then((res) => {
-          setAccessToken(res)
-        })
-        // @ts-ignore
-        window.ConfigAPI.getUsername().then((res) => {
-          setUsername(res)
+          // 2. Validate the accessToken
+          // @ts-ignore
+          window.GithubAPI.init(res)
+          // @ts-ignore
+          window.GithubAPI.validate()
+            .then((vres: boolean) => {
+              if (vres === true) {
+                // 3. Set accessToken
+                setBadAccessToken(false)
+                setAccessToken(res)
+              } else {
+                carouselRef.current.goTo(3)
+              }
+            })
+            .catch(() => {
+              carouselRef.current.goTo(3)
+            })
         })
       }
     })
@@ -34,13 +51,15 @@ const Window: React.FC = () => {
   return (
     <div className="window">
       <Carousel ref={carouselRef}>
-        <StatPanel></StatPanel>
+        <StatPanel timespan={timespan}></StatPanel>
         <div>2</div>
+        <div>3</div>
         <SettingsPanel
           accessToken={accessToken}
           setAccessToken={setAccessToken}
-          username={username}
-          setUsername={setUsername}
+          badAccessToken={badAccessToken}
+          timespan={timespan}
+          setTimespan={setTimespan}
         ></SettingsPanel>
       </Carousel>
     </div>

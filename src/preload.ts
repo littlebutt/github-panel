@@ -3,18 +3,28 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('ConfigAPI', {
-  init: () => ipcRenderer.invoke('init'),
   missBaseConfig: () => ipcRenderer.invoke('missBaseConfig'),
   getAccessToken: () => ipcRenderer.invoke('getAccessToken'),
-  getUsername: () => ipcRenderer.invoke('getUsername'),
   setAccessToken: (accessToken: string) =>
     ipcRenderer.invoke('setAccessToken', accessToken),
-  setUsername: (username: string) =>
-    ipcRenderer.invoke('setUsername', username),
+  getTimespan: () => ipcRenderer.invoke('getTimespan'),
+  setTimespan: (timespan: number) =>
+    ipcRenderer.invoke('setTimespan', timespan),
   save: () => ipcRenderer.invoke('save'),
 })
 
 contextBridge.exposeInMainWorld('SystemAPI', {
   restart: () => ipcRenderer.invoke('restart'),
   quit: () => ipcRenderer.invoke('quit'),
+})
+
+contextBridge.exposeInMainWorld('GithubAPI', {
+  init: (accessToken: string) =>
+    ipcRenderer.invoke('initGithubClient', accessToken),
+  validate: () => ipcRenderer.invoke('validate'),
+  getAuthenticatedUser: () => ipcRenderer.invoke('getAuthenticatedUser'),
+  listRepositoriesForAuthenticatedUser: () =>
+    ipcRenderer.invoke('listRepositoriesForAuthenticatedUser'),
+  listCommitsForAuthenticatedUser: (timespan: number, username: string) =>
+    ipcRenderer.invoke('listCommitsForAuthenticatedUser', timespan, username),
 })
