@@ -99,6 +99,16 @@ const initGithubIPC = () => {
     (event, timespan: number, username: string) =>
       githubClient.listCommitsForAuthenticatedUser(timespan, username),
   )
+  ipcMain.handle(
+    'listPRsForAuthenticatedUser',
+    (event, timespan: number, username: string) =>
+      githubClient.listPRsForAuthenticatedUser(timespan, username),
+  )
+  ipcMain.handle(
+    'listIssuesForAuthenticatedUser',
+    (event, timespan: number, username: string) =>
+      githubClient.listIssuesForAuthenticatedUser(timespan, username),
+  )
 }
 
 app.on('ready', () => {

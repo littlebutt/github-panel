@@ -28,3 +28,31 @@ export const getCommits = (
     })
     .catch((err: any) => rejector(err))
 }
+
+export const getPRs = (
+  timespan: number,
+  username: string,
+  consumer: (e: number) => void,
+  rejector: (err: any) => void = console.log,
+) => {
+  // @ts-ignore
+  window.GithubAPI.listPRsForAuthenticatedUser(timespan, username)
+    .then((res: { total_count: any }) => {
+      consumer(res?.total_count ?? 0)
+    })
+    .catch((err: any) => rejector(err))
+}
+
+export const getIssues = (
+  timespan: number,
+  username: string,
+  consumer: (e: number) => void,
+  rejector: (err: any) => void = console.log,
+) => {
+  // @ts-ignore
+  window.GithubAPI.listIssuesForAuthenticatedUser(timespan, username)
+    .then((res: { total_count: any }) => {
+      consumer(res?.total_count ?? 0)
+    })
+    .catch((err: any) => rejector(err))
+}

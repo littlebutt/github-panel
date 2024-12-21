@@ -27,4 +27,8 @@ contextBridge.exposeInMainWorld('GithubAPI', {
     ipcRenderer.invoke('listRepositoriesForAuthenticatedUser'),
   listCommitsForAuthenticatedUser: (timespan: number, username: string) =>
     ipcRenderer.invoke('listCommitsForAuthenticatedUser', timespan, username),
+  listPRsForAuthenticatedUser: (timespan: number, username: string) =>
+    ipcRenderer.invoke('listPRsForAuthenticatedUser', timespan, username),
+  listIssuesForAuthenticatedUser: (timespan: number, username: string) =>
+    ipcRenderer.invoke('listIssuesForAuthenticatedUser', timespan, username)
 })

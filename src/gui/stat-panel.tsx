@@ -12,7 +12,7 @@ import {
 
 import './stat-panel.css'
 import ActivityCalendar from './components/activity-calendar'
-import { getCommits, getStarred } from './utils'
+import { getCommits, getIssues, getPRs, getStarred } from './utils'
 
 export interface StatPanelProps {
   timespan: number
@@ -28,7 +28,8 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
   const [location, setLocation] = useState<string>('Unknown')
   const [starred, setStarred] = useState<number>(0)
   const [commits, setCommits] = useState<number>(0)
-  const stat = 50
+  const [PRs, setPRs] = useState<number>(0)
+  const [issues, setIssues] = useState<number>(0)
 
   useEffect(() => {
     // @ts-ignore
@@ -39,6 +40,8 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
       setFollowing(res?.following)
       setLocation(res?.location ?? 'Unknown')
       getCommits(props.timespan, res?.login, setCommits)
+      getPRs(props.timespan, res?.login, setPRs)
+      getIssues(props.timespan, res?.login, setIssues)
     })
     getStarred(setStarred)
   })
@@ -94,7 +97,7 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
               <Text size="small">PRs</Text>
               <div>
                 <GitPullRequestIcon size={16} verticalAlign="middle" />{' '}
-                <Text>{stat}</Text>
+                <Text>{PRs}</Text>
               </div>
             </div>
           </div>
@@ -103,7 +106,7 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
               <Text size="small">Issues</Text>
               <div>
                 <IssueOpenedIcon size={16} verticalAlign="middle" />{' '}
-                <Text>{stat}</Text>
+                <Text>{issues}</Text>
               </div>
             </div>
           </div>
