@@ -39,12 +39,15 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
       setFollowers(res?.followers)
       setFollowing(res?.following)
       setLocation(res?.location ?? 'Unknown')
-      getCommits(props.timespan, res?.login, setCommits)
-      getPRs(props.timespan, res?.login, setPRs)
-      getIssues(props.timespan, res?.login, setIssues)
     })
     getStarred(setStarred)
   })
+
+  useEffect(() => {
+    getCommits(props.timespan, name, setCommits)
+    getPRs(props.timespan, name, setPRs)
+    getIssues(props.timespan, name, setIssues)
+  }, [name])
 
   return (
     <div className="main">
