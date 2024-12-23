@@ -1,0 +1,20 @@
+table {
+    color: var(--fgColor-default, var(--color-fg-default));
+    border: 0.8px solid rgb(209, 217, 224);
+    border-collapse: separate;
+    table-layout: fixed;
+    border-radius: 6px;
+    overflow-wrap: break-word;
+    font-size: 12px;
+    text-align: left;
+}
+
+th {
+    color: var(--fgColor-muted, var(--color-fg-muted, #656d76));
+    background-color: var(--bgColor-muted, var(--color-canvas-subtle, #f6f8fa));
+}
+
+tr:hover {
+    background-color: var(--bgColor-muted, var(--color-canvas-subtle));
+}
+
