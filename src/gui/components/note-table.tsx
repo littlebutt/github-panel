@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react"
+import React from 'react'
 
 import './note-table.css'
 
@@ -21,38 +21,41 @@ export interface NoteTableProps<RecordType = any> {
   className?: string
 }
 
-const NoteTable = React.forwardRef<HTMLTableElement, NoteTableProps>((props: NoteTableProps, ref) => {
-  const tableRef = React.useRef<HTMLTableElement>(null)
-  return (
-    <table 
-      ref={tableRef}
-      id={props.id}
-      className={props.className}
-    >
-      <thead>
-        <tr>
-          {props.columns.map(column => (
-            <th
-              key={column.key}
-              colSpan={column.colspan}
-              rowSpan={column.rowspan}
-              style={{width: column.width}}>
-                <div>{column.title}</div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {props.records.map((record => (
+const NoteTable = React.forwardRef<HTMLTableElement, NoteTableProps>(
+  (props: NoteTableProps, ref) => {
+    const tableRef = React.useRef<HTMLTableElement>(null)
+    return (
+      <table ref={tableRef} id={props.id} className={props.className}>
+        <thead>
           <tr>
-            {props.columns.map(column => (
-              <td>{column.render ? column.render(record[column.key]) : record[column.key]}</td>
+            {props.columns.map((column) => (
+              <th
+                key={column.key}
+                colSpan={column.colspan}
+                rowSpan={column.rowspan}
+                style={{ width: column.width }}
+              >
+                <div>{column.title}</div>
+              </th>
             ))}
           </tr>
-        )))}
-      </tbody>
-    </table>
-  )
-})
+        </thead>
+        <tbody>
+          {props.records.map((record) => (
+            <tr>
+              {props.columns.map((column) => (
+                <td>
+                  {column.render
+                    ? column.render(record[column.key])
+                    : record[column.key]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  },
+)
 
 export default NoteTable
