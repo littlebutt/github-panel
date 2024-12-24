@@ -12,7 +12,7 @@ import {
 } from 'date-fns'
 import './activity-calendar.css'
 
-interface Activity {
+export interface Activity {
   date: string
   count: number
   level: 0 | 1 | 2 | 3 | 4
@@ -26,7 +26,7 @@ export interface ActivityCalendarProps {
   maxLevel?: number
 }
 
-const generate = () => {
+export const generate = () => {
   const year = new Date().getFullYear()
   const days = eachDayOfInterval({
     start: new Date(year, 0, 1),
@@ -105,17 +105,20 @@ const ActivityCalendar = React.forwardRef<HTMLElement, ActivityCalendarProps>(
     }
 
     const calcColorScale = (
+      base: string,
       colors: [from: Color, to: Color],
       steps: number,
     ) => {
-      return [...Array(steps).keys()].map((i) => {
+      const scale = [...Array(steps).keys()].map((i) => {
         const mixFactor = (i / (steps - 1)) * 100
         return `color-mix(in oklab, ${colors[1]} ${parseFloat(mixFactor.toFixed(2))}%, ${colors[0]})`
       })
+      return [base].concat(scale)
     }
     const weeks = groupByWeeks(activities as Array<Activity>, weekStart)
     const colorScale = calcColorScale(
-      ['hsl(0, 0%, 92%)', 'hsl(0, 0%, 26%)'],
+      '#ebedf0',
+      ['#9be9a8', '#216e39'],
       maxLevel + 1,
     )
 

@@ -11,7 +11,7 @@ import {
 } from '@primer/octicons-react'
 
 import './stat-panel.css'
-import ActivityCalendar from './components/activity-calendar'
+import ActivityCalendar, { Activity, generate } from './components/activity-calendar'
 import { getCommits, getIssues, getPRs, getStarred } from './utils'
 
 export interface StatPanelProps {
@@ -30,6 +30,7 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
   const [commits, setCommits] = useState<number>(0)
   const [PRs, setPRs] = useState<number>(0)
   const [issues, setIssues] = useState<number>(0)
+  const [activities, setActivities] = useState<Activity[]>(generate() as Activity[])
 
   useEffect(() => {
     // @ts-ignore
@@ -47,6 +48,10 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
     getCommits(props.timespan, name, setCommits)
     getPRs(props.timespan, name, setPRs)
     getIssues(props.timespan, name, setIssues)
+    // @ts-ignore
+    window.GithubAPI.listContributionsForUser(name).then((res) => {
+      setActivities(res.contributions)
+    }).catch((err: any)=>console.log(err))
   }, [name])
 
   return (
@@ -115,7 +120,7 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
           </div>
         </div>
         <div className="activity">
-          <ActivityCalendar></ActivityCalendar>
+          <ActivityCalendar activities={activities}></ActivityCalendar>
         </div>
       </div>
     </div>

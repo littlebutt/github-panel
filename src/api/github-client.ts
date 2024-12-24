@@ -20,18 +20,18 @@ export class GithubClient {
     this.accessToken = props.accessToken
     this.headers = {
       'X-GitHub-Api-Version': '2022-11-28',
-      'Accept': 'application/vnd.github+json',
-      'Authorization': this.accessToken
+      Accept: 'application/vnd.github+json',
+      Authorization: this.accessToken,
     }
     this.octokit = new Octokit({
-      auth: this.accessToken      
+      auth: this.accessToken,
     })
   }
 
   async validate() {
     const { data } =
       (await this.octokit?.request('GET /user', {
-        headers: this.headers
+        headers: this.headers,
       })) ?? {}
     return 'login' in data
   }
@@ -39,7 +39,7 @@ export class GithubClient {
   async getAuthenticatedUser() {
     const { data } =
       (await this.octokit?.request('GET /user', {
-        headers: this.headers
+        headers: this.headers,
       })) ?? {}
     return data
   }
@@ -47,7 +47,7 @@ export class GithubClient {
   async listRepositoriesForAuthenticatedUser() {
     const { data } =
       (await this.octokit?.request('GET /user/repos', {
-        headers: this.headers
+        headers: this.headers,
       })) ?? {}
     return data
   }
@@ -89,6 +89,12 @@ export class GithubClient {
         headers: this.headers,
       },
     )
+    const data = await res.json()
+    return data
+  }
+
+  async listContributionsForUser(username: string) {
+    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`)
     const data = await res.json()
     return data
   }
