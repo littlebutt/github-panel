@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
-import './note-table.css'
+import './event-table.css'
 
 export interface ColumnType<RecordType = any> {
   key: string
@@ -10,10 +10,10 @@ export interface ColumnType<RecordType = any> {
   colspan?: number
   rowspan?: number
   width?: string | number
-  render?: (record: RecordType) => React.ReactNode
+  render?: (target: any) => React.ReactNode
 }
 
-export interface NoteTableProps<RecordType = any> {
+export interface EventTableProps<RecordType = any> {
   columns: ColumnType<RecordType>[]
   records: RecordType[]
   style?: React.CSSProperties
@@ -21,8 +21,8 @@ export interface NoteTableProps<RecordType = any> {
   className?: string
 }
 
-const NoteTable = React.forwardRef<HTMLTableElement, NoteTableProps>(
-  (props: NoteTableProps, ref) => {
+const EventTable = React.forwardRef<HTMLTableElement, EventTableProps>(
+  (props: EventTableProps, ref) => {
     const tableRef = React.useRef<HTMLTableElement>(null)
     return (
       <table ref={tableRef} id={props.id} className={props.className}>
@@ -47,7 +47,7 @@ const NoteTable = React.forwardRef<HTMLTableElement, NoteTableProps>(
                 <td>
                   {column.render
                     ? column.render(record[column.key])
-                    : record[column.key]}
+                    : <span>{record[column.key]}</span>}
                 </td>
               ))}
             </tr>
@@ -58,4 +58,4 @@ const NoteTable = React.forwardRef<HTMLTableElement, NoteTableProps>(
   },
 )
 
-export default NoteTable
+export default EventTable

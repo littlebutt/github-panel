@@ -7,11 +7,16 @@ table {
   overflow-wrap: break-word;
   font-size: 12px;
   text-align: left;
+  overflow-y: auto;
 }
 
 th {
   color: var(--fgColor-muted, var(--color-fg-muted, #656d76));
   background-color: var(--bgColor-muted, var(--color-canvas-subtle, #f6f8fa));
+}
+
+tr {
+  overflow: auto;
 }
 
 tr:hover {
