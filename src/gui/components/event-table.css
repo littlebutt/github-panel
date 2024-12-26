@@ -5,7 +5,7 @@ table {
   table-layout: fixed;
   border-radius: 6px;
   overflow-wrap: break-word;
-  font-size: 12px;
+  font-size: 16px;
   text-align: left;
   overflow-y: auto;
 }
