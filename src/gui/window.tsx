@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import Carousel from './components/carousel'
 import StatPanel from './stat-panel'
 import SettingsPanel from './settings-panel'
+import EventPanel from './event-panel'
 
 import './window.css'
 
@@ -22,7 +23,7 @@ const Window: React.FC = () => {
     window.ConfigAPI.missBaseConfig().then((res) => {
       // 1. No accessToken in the config file
       if (res === true) {
-        carouselRef.current.goTo(3)
+        carouselRef.current.goTo(2)
       } else {
         // @ts-ignore
         window.ConfigAPI.getAccessToken().then((res) => {
@@ -37,11 +38,11 @@ const Window: React.FC = () => {
                 setBadAccessToken(false)
                 setAccessToken(res)
               } else {
-                carouselRef.current.goTo(3)
+                carouselRef.current.goTo(2)
               }
             })
             .catch(() => {
-              carouselRef.current.goTo(3)
+              carouselRef.current.goTo(2)
             })
         })
       }
@@ -52,8 +53,7 @@ const Window: React.FC = () => {
     <div className="window">
       <Carousel ref={carouselRef}>
         <StatPanel timespan={timespan}></StatPanel>
-        <div>2</div>
-        <div>3</div>
+        <EventPanel></EventPanel>
         <SettingsPanel
           accessToken={accessToken}
           setAccessToken={setAccessToken}

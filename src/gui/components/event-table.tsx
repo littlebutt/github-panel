@@ -45,9 +45,11 @@ const EventTable = React.forwardRef<HTMLTableElement, EventTableProps>(
             <tr>
               {props.columns.map((column) => (
                 <td>
-                  {column.render
-                    ? column.render(record[column.key])
-                    : <span>{record[column.key]}</span>}
+                  {column.render ? (
+                    column.render(record[column.key])
+                  ) : (
+                    <span>{record[column.key]}</span>
+                  )}
                 </td>
               ))}
             </tr>

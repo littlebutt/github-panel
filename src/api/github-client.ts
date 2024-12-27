@@ -94,8 +94,19 @@ export class GithubClient {
   }
 
   async listContributionsForUser(username: string) {
-    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`)
+    const res = await fetch(
+      `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
+    )
     const data = await res.json()
+    return data
+  }
+
+  async listNotificationsForAuthenticatedUser(username: string) {
+    const { data } =
+      (await this.octokit?.request(`GET /users/${username}/received_events`, {
+        username,
+        headers: this.headers,
+      })) ?? {}
     return data
   }
 }

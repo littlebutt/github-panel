@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from 'react'
 import { Avatar, Text } from '@primer/react'
@@ -11,7 +12,10 @@ import {
 } from '@primer/octicons-react'
 
 import './stat-panel.css'
-import ActivityCalendar, { Activity, generate } from './components/activity-calendar'
+import ActivityCalendar, {
+  Activity,
+  generate,
+} from './components/activity-calendar'
 import { getCommits, getIssues, getPRs, getStarred } from './utils'
 
 export interface StatPanelProps {
@@ -30,7 +34,9 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
   const [commits, setCommits] = useState<number>(0)
   const [PRs, setPRs] = useState<number>(0)
   const [issues, setIssues] = useState<number>(0)
-  const [activities, setActivities] = useState<Activity[]>(generate() as Activity[])
+  const [activities, setActivities] = useState<Activity[]>(
+    generate() as Activity[],
+  )
 
   useEffect(() => {
     // @ts-ignore
@@ -49,9 +55,11 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
     getPRs(props.timespan, name, setPRs)
     getIssues(props.timespan, name, setIssues)
     // @ts-ignore
-    window.GithubAPI.listContributionsForUser(name).then((res) => {
-      setActivities(res.contributions)
-    }).catch((err: any)=>console.log(err))
+    window.GithubAPI.listContributionsForUser(name)
+      .then((res: any) => {
+        setActivities(res.contributions)
+      })
+      .catch((err: any) => console.log(err))
   }, [name])
 
   return (

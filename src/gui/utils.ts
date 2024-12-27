@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 export const getStarred = (
@@ -12,7 +13,7 @@ export const getStarred = (
         .reduce((ac, va) => ac + va, 0)
       consumer(stars)
     })
-    .catch((err: any) => rejector(err))
+    .catch((err: any) => {})
 }
 
 export const getCommits = (
@@ -26,7 +27,7 @@ export const getCommits = (
     .then((res: { total_count: any }) => {
       consumer(res?.total_count ?? 0)
     })
-    .catch((err: any) => rejector(err))
+    .catch((err: any) => {})
 }
 
 export const getPRs = (
@@ -40,7 +41,7 @@ export const getPRs = (
     .then((res: { total_count: any }) => {
       consumer(res?.total_count ?? 0)
     })
-    .catch((err: any) => rejector(err))
+    .catch((err: any) => {})
 }
 
 export const getIssues = (
@@ -54,5 +55,5 @@ export const getIssues = (
     .then((res: { total_count: any }) => {
       consumer(res?.total_count ?? 0)
     })
-    .catch((err: any) => rejector(err))
+    .catch((err: any) => {})
 }

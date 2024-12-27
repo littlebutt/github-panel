@@ -52,7 +52,7 @@
   height: 65px;
   margin: 3px 3px;
   padding: 6px;
-  border: 0.8px solid rgb(208, 215, 222);
+  border: 0.8px solid var(--bgColor-disabled, var(--color-bg-disabled, #eff2f5));
   border-radius: 6px;
   text-align: left;
   line-height: 2;
