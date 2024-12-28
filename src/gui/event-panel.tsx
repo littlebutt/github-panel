@@ -90,7 +90,7 @@ const EventPanel: React.FC = () => {
       <div className="inner">
         <div className="left-icon">{icon}</div>
         <div className="right-desc">
-          <div>
+          <div className='action'>
             {content.actor}
             {desc}
             {content.repo}
