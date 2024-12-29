@@ -13,6 +13,7 @@ import {
 } from '@primer/octicons-react'
 
 import './event-panel.css'
+import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, format, parseISO } from 'date-fns'
 
 interface RecordType {
   actor: string
@@ -41,6 +42,26 @@ interface RecordType {
 
 const EventPanel: React.FC = () => {
   const [records, setRecords] = useState<RecordType[]>([])
+
+  const parseTime = (time: string) => {
+    const parsed = parseISO(time)
+    const now = new Date()
+    if (differenceInMonths(now, parsed) > 12) {
+      return format(parsed, 'yyyy-MM-dd')
+    } else if (differenceInMonths(now, parsed) > 1) {
+      return `${differenceInMonths(now, parsed)} months ago`
+    } else if (differenceInWeeks(now, parsed) > 1) {
+      return `${differenceInWeeks(now, parsed)} weeks ago`
+    } else if (differenceInDays(now, parsed) > 1) {
+      return `${differenceInDays(now, parsed)} days ago`
+    } else if (differenceInHours(now, parsed) > 1) {
+      return `${differenceInHours(now, parsed)} hours ago`
+    } else if (differenceInMinutes(now, parsed) > 1) {
+      return `${differenceInMinutes(now, parsed)} minutes ago`
+    } else {
+      return 'now'
+    }
+  }
 
   const parseContent = (content: RecordType) => {
     let icon
@@ -95,7 +116,7 @@ const EventPanel: React.FC = () => {
             {desc}
             {content.repo}
           </div>
-          <div className="time">{content.time}</div>
+          <div className="time">{parseTime(content.time)}</div>
         </div>
       </div>
     )

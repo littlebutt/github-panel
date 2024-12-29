@@ -37,6 +37,8 @@
 
 .event-panel .inner .right-desc .action {
   color: var(--fgColor-default, var(--color-fg-default, #1f2328));
+  display: inline;
+  overflow: hidden;
   font-size: 14px;
 }
 
