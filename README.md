@@ -30,6 +30,8 @@ The events showed in your homepage include:
 
 ### Settings Page
 
+![settings-page](./docs/settings-page.png)
+
 The basic settings include:
 
 - Your Github Access Token
@@ -45,6 +47,20 @@ The basic settings include:
 3. Save and relaunch the app
 
 Or, you can edit the config in your home directory: `~/gh-panel.toml` or `~/.config/gh-panel.toml`. It is generated automatically if you have launched the app once.
+
+The sample config file is as followed:
+
+```
+accessToken = "<YOUR TOKEN>"
+timespan = "30"
+
+[theme/default]
+activate = true
+
+[theme/dark]
+activate = false
+
+```
 
 ## Themes
 
