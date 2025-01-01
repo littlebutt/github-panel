@@ -46,3 +46,21 @@
   color: var(--fgColor-disabled, var(--color-fg-disabled, #818b98));
   font-size: 12px;
 }
+
+.refresh {
+  color: var(--fgColor-default, var(--color-fg-default, #1f2328));
+  position: absolute;
+  width: 100%;
+  height: 30px;
+}
+
+.refresh .refresh-button {
+  border-radius: 25%;
+  width: 20px;
+  display: none;
+}
+
+.refresh:hover .refresh-button{
+  display: block;
+  margin-left: 350px;
+}

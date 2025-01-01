@@ -10,10 +10,12 @@ import {
   RepoForkedIcon,
   RepoPushIcon,
   StarIcon,
+  SyncIcon,
 } from '@primer/octicons-react'
 
 import './event-panel.css'
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, format, parseISO } from 'date-fns'
+import { Button } from '@primer/react'
 
 interface RecordType {
   actor: string
@@ -42,6 +44,7 @@ interface RecordType {
 
 const EventPanel: React.FC = () => {
   const [records, setRecords] = useState<RecordType[]>([])
+  const [login, setLogin] = useState<string>()
 
   const parseTime = (time: string) => {
     const parsed = parseISO(time)
@@ -122,11 +125,38 @@ const EventPanel: React.FC = () => {
     )
   }
 
+  const refresh = () => {
+    // @ts-ignore
+    login && window.GithubAPI.listNotificationsForAuthenticatedUser(login)
+    .then((_res: any) => {
+      const notes = _res.map(
+        (rec: {
+          actor: { login: any }
+          type: any
+          repo: { name: any }
+          payload: { action: any }
+          created_at: any
+        }) => {
+          return {
+            actor: rec.actor.login,
+            type: rec.type,
+            repo: rec.repo.name,
+            action: rec.payload?.action,
+            time: rec.created_at,
+          }
+        },
+      )
+      setRecords(notes)
+    })
+    .catch((err: any) => console.log(err))
+  }
+
   useEffect(() => {
     // @ts-ignore
     window.GithubAPI.getAuthenticatedUser().then((res) => {
+      setLogin(res?.login)
       // @ts-ignore
-      window.GithubAPI.listNotificationsForAuthenticatedUser(res?.login)
+      res?.login && window.GithubAPI.listNotificationsForAuthenticatedUser(res?.login)
         .then((_res: any) => {
           const notes = _res.map(
             (rec: {
@@ -153,6 +183,7 @@ const EventPanel: React.FC = () => {
 
   return (
     <div className="event-panel">
+      <div className='refresh'><Button className='refresh-button' size='small' onClick={refresh}><SyncIcon size={16} /></Button></div>
       {records.map((content) => parseContent(content))}
     </div>
   )
