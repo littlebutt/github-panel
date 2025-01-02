@@ -179,7 +179,7 @@ const EventPanel: React.FC = () => {
         })
         .catch((err: any) => console.log(err))
     })
-  })
+  }, [])
 
   return (
     <div className="event-panel">

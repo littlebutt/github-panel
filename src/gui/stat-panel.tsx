@@ -48,7 +48,7 @@ const StatPanel: React.FC<StatPanelProps> = (props: StatPanelProps) => {
       setLocation(res?.location ?? 'Unknown')
     })
     getStarred(setStarred)
-  })
+  }, [])
 
   useEffect(() => {
     getCommits(props.timespan, name, setCommits)
