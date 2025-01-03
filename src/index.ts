@@ -84,9 +84,6 @@ const initConfigIPC = () => {
 }
 
 const initGithubIPC = () => {
-  ipcMain.handle('initGithubClient', (event, accessToken: string) =>
-    githubClient.init({ accessToken }),
-  )
   ipcMain.handle('validate', () => githubClient.validate())
   ipcMain.handle('getAuthenticatedUser', () =>
     githubClient.getAuthenticatedUser(),

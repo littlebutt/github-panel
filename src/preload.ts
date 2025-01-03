@@ -19,8 +19,6 @@ contextBridge.exposeInMainWorld('SystemAPI', {
 })
 
 contextBridge.exposeInMainWorld('GithubAPI', {
-  init: (accessToken: string) =>
-    ipcRenderer.invoke('initGithubClient', accessToken),
   validate: () => ipcRenderer.invoke('validate'),
   getAuthenticatedUser: () => ipcRenderer.invoke('getAuthenticatedUser'),
   listRepositoriesForAuthenticatedUser: () =>

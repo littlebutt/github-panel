@@ -3,10 +3,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { Octokit } from 'octokit'
 import { addDays, format } from 'date-fns'
-
-export interface GithubClientProps {
-  accessToken: string
-}
+import { Config } from './config'
 
 export interface Headers {
   [key: string]: string
@@ -26,22 +23,22 @@ const log = (target: any, name: string, descriptor: PropertyDescriptor) => {
   return descriptor
 }
 
-// FIXME: API returns undefined sometimes
+
 export class GithubClient {
   private accessToken: string
   private headers: Headers
   private octokit: Octokit
 
-  init(props: GithubClientProps) {
-    this.accessToken = props.accessToken
+  constructor() {
+    const config = new Config({})
+    this.accessToken = config.getAccessToken()
     this.headers = {
       'X-GitHub-Api-Version': '2022-11-28',
       Accept: 'application/vnd.github+json',
       Authorization: this.accessToken,
     }
     this.octokit = new Octokit({
-      auth: this.accessToken,
-      request: { retries: 5, retryAfter: 5 }
+      auth: this.accessToken
     })
   }
 
@@ -55,8 +52,7 @@ export class GithubClient {
   @log
   async getAuthenticatedUser() {
     const { data } =
-      await this.octokit?.rest.users.getAuthenticated()
-
+      await this.octokit.rest.users.getAuthenticated()
     return data
   }
 

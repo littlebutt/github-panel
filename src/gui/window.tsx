@@ -29,8 +29,6 @@ const Window: React.FC = () => {
         window.ConfigAPI.getAccessToken().then((res) => {
           // 2. Validate the accessToken
           // @ts-ignore
-          window.GithubAPI.init(res)
-          // @ts-ignore
           window.GithubAPI.validate()
             .then((vres: boolean) => {
               if (vres === true) {
