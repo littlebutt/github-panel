@@ -22,6 +22,6 @@ jobs:
               with:
                 node-version: '20'
             - name: install
-              run: npm install
+              run: npm install --force
             - name: make
-              run: npm run make
+              run: npm run make --force
