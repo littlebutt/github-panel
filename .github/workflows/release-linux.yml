@@ -1,0 +1,32 @@
+name: release-linux
+
+on:
+    push:
+        tags:
+            - 'v*'
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            - name: Setup
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+            - name: Install
+              run: npm install --force
+            - name: Make
+              run: npm run make --force
+            - name: Get version
+              id: get_version
+              run: |
+                npm run gen-version
+                cat VERSION >> $GITHUB_OUTPUT
+            - name: release
+              uses: ncipollo/release-action@v1
+              with:
+                  name: Release ${{steps.get_version}}
+                  artifacts: "./out/make"
