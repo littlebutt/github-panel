@@ -6,7 +6,7 @@ fs.readFile('./package.json', 'utf-8', (err, data) => {
         return
     }
     const packageJson = JSON.parse(data)
-    fs.writeFile('./VERSION', `v${packageJson.version}`, () => {
+    fs.writeFile('./VERSION', `version=v${packageJson.version}`, () => {
         console.log("VERSION generated!")
     })
 })
