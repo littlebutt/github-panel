@@ -21,7 +21,9 @@ jobs:
               uses: actions/setup-node@v4
               with:
                 node-version: '20'
-            - name: install
+            - name: Install
               run: npm install --force
-            - name: make
+            - name: Make
               run: npm run make --force
+            - name: Check Artifacts
+              run: ls ./out/make
