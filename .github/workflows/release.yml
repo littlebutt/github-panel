@@ -32,4 +32,4 @@ jobs:
               uses: ncipollo/release-action@v1
               with:
                   name: Release ${{steps.get_version.version}}
-                  artifacts: "./out/make"
+                  artifacts: "./out/make/zip,./out/make/rpm,./out/make/deb,./out/make/squirrel.windows/x64/github-panel-0.1.0 Setup.exe"
