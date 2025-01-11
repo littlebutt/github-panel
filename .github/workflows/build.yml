@@ -26,4 +26,4 @@ jobs:
             - name: Make
               run: npm run make --force
             - name: Check Artifacts
-              run: ls ./out/make
+              run: ls -r ./out/make

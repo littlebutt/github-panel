@@ -33,5 +33,3 @@ jobs:
               with:
                   name: Release ${{steps.get_version.version}}
                   artifacts: "./out/make"
-            - name: Check Artifacts
-              run: ls ./out/make
