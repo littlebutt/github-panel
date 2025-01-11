@@ -25,5 +25,3 @@ jobs:
               run: npm install --force
             - name: Make
               run: npm run make --force
-            - name: Check Artifacts
-              run: ls -R ./out/make
