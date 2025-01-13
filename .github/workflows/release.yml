@@ -22,7 +22,8 @@ jobs:
         id: get_version
         run: |
              npm run gen-version
-             echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
+             $version = Get-Content VERSION
+             echo "version=$version" >> $env:GITHUB_OUTPUT
       - name: Upload Dist Artifact
         uses: actions/upload-artifact@v4
         with:
